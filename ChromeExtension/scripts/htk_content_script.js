@@ -1,38 +1,61 @@
-var teachersAdded = false;
 
 /* Communication with the background scripts */
+
 var communicationPort = null;
 
-chrome.extension.sendMessage({greeting: "hello"});
+/* Request a connection */
+chrome.extension.sendMessage({ openConnection: "true", wikiPage : "wikiPageId"});
 
-function sendMsgBackground() {
-
-	communicationPort.postMessage({
+function sendMessageBackground() {
+	communicationPort.postMessage(
+	{
 		"ID" : "section_iterator",
-		"section" : section,	
+		"section" : section,
 		"rowIndex" : rowIndex
 	});
 
 }
 
-function appendText() {
-	window.setTimeout(function(){
-	document.body.innerHTML += "<div style='position : absolute; color : Red; font-size: 36px; top : 200px; left: 100px;'>Hello World! Appended by Chrome Extension</div>";}, 5000);
+function receiveMessageBackground(msg) {
+	var keyWord = msg.keyWord;
+	appendContent(msg.keyWord);
 }
 
 chrome.extension.onConnect.addListener(function(thePort) {
     //user clicked context menu item
     //set up the message passing interface
     communicationPort = thePort;
-    communicationPort.onMessage.addListener(appendText);
+    communicationPort.onMessage.addListener(receiveMessageBackground);
 });
+
 /* Communication with the background scripts */
 
+function markWord(str) {
+	return "<a class='ourKeyWord' title='some text'>" + str + "<\/a>";
+}
+
+function appendContent(keyWord) {
+	window.setTimeout(function(){
+		var regex = keyWord;
+		var re = new RegExp(regex, "gi");
+		
+		/* Find all occurances of our keyword and mark them. */
+		$("body *").replaceText(re, markWord);
+		
+		/* Add tooltip that will show the twitter data on hover. */
+		$( ".ourKeyWord" ).tooltip({ 
+										content: function() {return parseHTML();} 
+									});
+	}, 0);	
+}
+
+function parseHTML() {
+	return "<div style='color: Red; width:300px; height:100px;'>An awesome html content.</div>";
+}
 
 // Copyright (c) 2012 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
 var req = new XMLHttpRequest();
 req.open(
     "GET",
@@ -54,7 +77,7 @@ function showPhotos() {
   for (var i = 0, photo; photo = photos[i]; i++) {
     var img = document.createElement("image");
     img.src = constructImageURL(photo);
-    //document.body.appendChild(img);
+    document.body.appendChild(img);
   }
 }
 
