@@ -1,0 +1,26 @@
+{
+
+	"name": "Highlight Twitter Keywords",
+	"version": "1.0",
+	"manifest_version": 2,
+	 "description": "Find relevant keywords on a wikipedia article and display respective twitter data in HTML format.",
+
+	"browser_action": {
+		"default_icon": "icon.png"
+	},
+
+	"permissions": [
+		"contextMenus",
+		"tabs"
+	],
+
+	"background": {
+		"scripts": ["scripts/htk_background_script.js"]
+	},
+
+	"content_scripts": [{
+		"matches": ["http://*.wikipedia.org/*"],
+        	"js": ["scripts/htk_content_script.js"]
+    }]
+
+}
