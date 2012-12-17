@@ -1,13 +1,57 @@
+#! /usr/bin/python
+
+import sys
 import nltk
-from nltk.collocations import *
-bigram_measures = nltk.collocations.BigramAssocMeasures()
+from nltk import FreqDist, WordPunctTokenizer
+from nltk.corpus import stopwords
+import urllib, urllib2
+from nltk.util import clean_html
 
-# change this to read in your data
-finder = BigramCollocationFinder.from_words(
-   #nltk.corpus.genesis.words('english-web.txt'))
+def freqWords(string,count):
+#  Based on: http://graus.nu/blog/simple-keyword-extraction-in-python/ 
+	wordList=[]
+	stopset = set(stopwords.words('english'))
+	words = WordPunctTokenizer().tokenize(string)
+	wordsCleaned = [word.lower() for word in words if word.lower() not in stopset and len(word) > 2 ]
+	fdist = FreqDist(wordsCleaned).keys()
+	if len(wordsCleaned) < count:
+		count = len(wordsCleaned)-1
+	if count > 0:
+		for j in range(1,len(wordsCleaned)-1):
+			if (count <= len(wordList)):
+				break
+			word = fdist[j-1:j]
+			if len(word) > 0 and not word[0].isdigit():
+				wordList.append(word[0])
+	return wordList
 
-# only bigrams that appear 3+ times
-finder.apply_freq_filter(3) 
+def getWebPg(link):
+	# Get url in file format
+	opener = urllib2.build_opener()
+	opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+	f = opener.open(link)
 
-# return the 5 n-grams with the highest PMI
-print finder.nbest(bigram_measures.pmi, 5)  
+	# Read in url and store page
+	page = f.read()
+	f.close()
+
+	# Parse out text (clean html tags)
+	page = clean_html(page)
+	#page = page.decode('utf-8');
+
+	return page
+
+
+
+if (len(sys.argv) != 2):
+	print "Will return 15 keywords from a URL link"
+	print "usage: " + sys.argv[0] + " URL"
+	sys.exit()
+
+# Get webpage
+print "Retreiving webpage " + sys.argv[1]
+wikiPage = getWebPg(sys.argv[1]);
+
+# Get keywords
+print "The keywords of this page is:"
+print freqWords(wikiPage, 15)
