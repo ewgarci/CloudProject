@@ -42,7 +42,7 @@ def getWebPg(link):
 	return page
 
 
-
+''' Demos the script, stand-alone from command link
 if (len(sys.argv) != 2):
 	print "Will return 15 keywords from a URL link"
 	print "usage: " + sys.argv[0] + " URL"
@@ -55,3 +55,4 @@ wikiPage = getWebPg(sys.argv[1]);
 # Get keywords
 print "The keywords of this page is:"
 print freqWords(wikiPage, 15)
+'''
