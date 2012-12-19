@@ -43,7 +43,6 @@ def getWebPgTweets(url):
 	
 	return json.dumps(keywordTweets)
 
-'''
 # For webpage DEMO
 cgitb.enable()
 
@@ -51,10 +50,5 @@ form = cgi.FieldStorage()
 
 query = form.getvalue("urllink")
 
-print "Content-type: text/html\n\n"
-print "<html>"
-
 print getWebPgTweets(query)
 
-print "</html>"
-'''
