@@ -50,8 +50,6 @@ def getWebPg(link):
 
 	return page
 
-pg = getWebPg("http://en.wikipedia.org/wiki/Usa");
-print freqWords(pg, 20)
 ''' Demos the script, stand-alone from command link
 if (len(sys.argv) != 2):
 	print "Will return 15 keywords from a URL link"
