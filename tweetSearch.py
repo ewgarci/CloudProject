@@ -51,9 +51,8 @@ keywordTweets = []
 for keyword in keywords:
 	tweets = getTweets(keyword)
 	keywordTweets.append([keyword,tweets])
-	print keyword, "</br>"
-	print tweets "</br>"
 
+print keywordTweets
 
 #getTweets(query) 
 print "</html>"
