@@ -6,6 +6,7 @@ from nltk import FreqDist, WordPunctTokenizer
 from nltk.corpus import stopwords
 import urllib, urllib2
 from nltk.util import clean_html
+import re
 
 def freqWords(string,count):
 #  Based on: http://graus.nu/blog/simple-keyword-extraction-in-python/ 
@@ -37,11 +38,20 @@ def getWebPg(link):
 
 	# Parse out text (clean html tags)
 	page = clean_html(page)
+
+	match = re.search('^\s*References\s*$', page, re.MULTILINE)
+	if match:
+		endPage = match.start()
+		page = page[:endPage]
+
+	#print page
+
 	#page = page.decode('utf-8');
 
 	return page
 
-
+pg = getWebPg("http://en.wikipedia.org/wiki/Usa");
+print freqWords(pg, 20)
 ''' Demos the script, stand-alone from command link
 if (len(sys.argv) != 2):
 	print "Will return 15 keywords from a URL link"
