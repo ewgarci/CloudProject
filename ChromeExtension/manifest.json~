@@ -11,11 +11,13 @@
 
 	"permissions": [
 		"contextMenus",
-		"tabs"
+		"tabs",
+		"http://ec2-50-17-87-12.compute-1.amazonaws.com:8080/",
+		"https://ec2-50-17-87-12.compute-1.amazonaws.com:8080/"
 	],
 
 	"background": {
-		"scripts": ["scripts/htk_background_script.js"]
+		"scripts": ["scripts/htk_background_script.js", "scripts/jquery-1.8.3.min.js"]
 	},
 
 	"content_scripts": [{
