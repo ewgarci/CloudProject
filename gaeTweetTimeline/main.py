@@ -44,7 +44,7 @@ class MainHandler(webapp.RequestHandler):
             twdict = simplejson.loads(results.content)
             for tweet in twdict:
                 tweets += tweet["text"] + "    "
-                self.response.out.write(tweet["text"])
+                self.response.out.write("{text: '%s'}" % tweet["text"])
                 self.response.out.write("<br /><br />")
 
         else:
