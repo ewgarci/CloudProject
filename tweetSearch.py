@@ -6,6 +6,7 @@ import sys
 import cgitb
 import cgi
 import keyword_extract
+import simplejson, json
 
 from xml.dom.minidom import parseString
 from string import rfind
@@ -30,6 +31,20 @@ def getTweets(query):
 	
 	#print searchTweets(query)
 
+def getWebPgTweets(url):
+	webpage = keyword_extract.getWebPg(url)
+	keywords = keyword_extract.freqWords(webpage, 15)
+	
+	keywordTweets = dict()
+	
+	for keyword in keywords:
+		tweets = getTweets(keyword)
+		keywordTweets[keyword] = tweets
+	
+	return json.dumps(keywordTweets)
+
+'''
+# For webpage DEMO
 cgitb.enable()
 
 form = cgi.FieldStorage()
@@ -39,20 +54,7 @@ query = form.getvalue("urllink")
 print "Content-type: text/html\n\n"
 print "<html>"
 
-webpage = keyword_extract.getWebPg(query)
-keywords = keyword_extract.freqWords(webpage, 15)
+print getWebPgTweets(query)
 
-print keywords, "</br>"
-
-print "Tweets for these keywords:</br>"
-
-keywordTweets = []
-
-for keyword in keywords:
-	tweets = getTweets(keyword)
-	keywordTweets.append([keyword,tweets])
-
-print keywordTweets
-
-#getTweets(query) 
 print "</html>"
+'''
