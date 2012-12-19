@@ -27,7 +27,7 @@ class MainHandler(webapp.RequestHandler):
         if mode == "login":
             return self.redirect(client.get_authorization_url())
           
-        if mode == "timeline":
+        elif mode == "timeline":
             auth_token = self.request.get("oauth_token")
             auth_verifier = self.request.get("oauth_verifier")
             user_info = client.get_user_info(auth_token, auth_verifier=auth_verifier)
@@ -35,17 +35,21 @@ class MainHandler(webapp.RequestHandler):
             ACCESS_SECRET = user_info.get("secret")
 
             timeline_url = "http://api.twitter.com/1/statuses/home_timeline.json"
-            results = client.make_request(url=timeline_url, token=ACCESS_TOKEN, 
-                                          secret=ACCESS_SECRET )
+            results = client.make_request(url=timeline_url.encode('utf-8'), 
+                                          additional_params={"count":100}, 
+                                          token=ACCESS_TOKEN, 
+                                          secret=ACCESS_SECRET)
 
             tweets = ""
             twdict = simplejson.loads(results.content)
             for tweet in twdict:
                 tweets += tweet["text"] + "    "
+                self.response.out.write(tweet["text"])
+                self.response.out.write("<br /><br />")
 
-            return self.response.out.write(tweets)
+        else:
+            self.response.out.write("<a href='/login'>Login via Twitter</a>")
       
-        self.response.out.write("<a href='/login'>Login via Twitter</a>")
 
 app = webapp.WSGIApplication([('/(.*)', MainHandler)])
 
