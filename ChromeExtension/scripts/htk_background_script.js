@@ -15,7 +15,7 @@ function sendData(tab, data) {
     var tabID = tab.id;
     communicationPort = chrome.tabs.connect(tabID);
     communicationPort.onMessage.addListener(receiveMessage);
-    communicationPort.postMessage({ keyWord : "the", content : data });
+    communicationPort.postMessage(data);
 }
 
 
@@ -33,10 +33,16 @@ function sendRequestToCloud(wikiPage) {
 		/* handle response */
 		function(dataReceived) {
 			parseCloudData(dataReceived);
-		});
-		//"json");
+		}, "json");
 }
 
 function parseCloudData(data) {
-	sendData(tab, data);
+	var p;
+	for (var prop in data) {
+		p = prop;
+		break;
+	}
+	var firstTweet = data[p];
+	alert(p + " = " + firstTweet);
+	sendData(tab, { keyWord : p + "", content : firstTweet});
 }
