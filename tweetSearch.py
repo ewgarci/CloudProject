@@ -60,7 +60,8 @@ form = cgi.FieldStorage()
 
 query = form.getvalue("urllink")
 keywords = form.getvalue("keywords")
+no_of_kw = int(keywords)
 
 print "Content-type: text/html\n\n"
-print getWebPgTweets(query, keywords)
+print getWebPgTweets(query, no_of_kw)
 
