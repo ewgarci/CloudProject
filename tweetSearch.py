@@ -23,7 +23,7 @@ def getTweets(query):
 	
 	results = []
 	for result in dict["results"]:
-		results.append(result["text"].encode('utf-8'))
+		results.append(result)
 		#print "<p>"
 		#print "*",result["text"].encode('utf-8'),"\n"
 
@@ -50,5 +50,6 @@ form = cgi.FieldStorage()
 
 query = form.getvalue("urllink")
 
+print "Content-type: text/html\n\n"
 print getWebPgTweets(query)
 
