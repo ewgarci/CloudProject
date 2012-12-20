@@ -33,13 +33,16 @@ def getTweets(query):
 	#print searchTweets(query)
 
 def getWebPgTweets(url):
-	webpage = keyword_extract.getWebPg(url)
-	keywords = keyword_extract.freqWords(webpage, 7)
-	
-	keywordTweets = dict()
-	
-	for keyword in keywords:
-		tweets = getTweets(keyword)
+    webpage = keyword_extract.getWebPg(url)
+    keywords = keyword_extract.freqWords(webpage, 7)
+    
+    #test
+    print keywords
+    
+    keywordTweets = dict()
+    
+    for keyword in keywords:
+    	tweets = getTweets(keyword)
         extractList = []
         for t in tweets:
             tempdic = dict()
@@ -48,10 +51,10 @@ def getWebPgTweets(url):
             tempdic["from_user_name"] = t["from_user_name"]
             tempdic["profile_image_url"] = t["profile_image_url"]
             extractList.append(tempdic)
-
+    
         keywordTweets[keyword] = extractList
-	
-	return json.dumps(keywordTweets)
+    
+    return json.dumps(keywordTweets)
 
 # For webpage DEMO
 cgitb.enable()
