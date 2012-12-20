@@ -32,12 +32,9 @@ def getTweets(query):
 	
 	#print searchTweets(query)
 
-def getWebPgTweets(url):
+def getWebPgTweets(url, no_keywords):
     webpage = keyword_extract.getWebPg(url)
-    keywords = keyword_extract.freqWords(webpage, 7)
-    
-    #test
-    print keywords
+    keywords = keyword_extract.freqWords(webpage, no_keywords)
     
     keywordTweets = dict()
     
@@ -62,7 +59,8 @@ cgitb.enable()
 form = cgi.FieldStorage()
 
 query = form.getvalue("urllink")
+keywords = form.getvalue("keywords")
 
 print "Content-type: text/html\n\n"
-print getWebPgTweets(query)
+print getWebPgTweets(query, keywords)
 
