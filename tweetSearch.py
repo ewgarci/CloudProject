@@ -33,13 +33,22 @@ def getTweets(query):
 
 def getWebPgTweets(url):
 	webpage = keyword_extract.getWebPg(url)
-	keywords = keyword_extract.freqWords(webpage, 15)
+	keywords = keyword_extract.freqWords(webpage, 7)
 	
 	keywordTweets = dict()
 	
 	for keyword in keywords:
 		tweets = getTweets(keyword)
-		keywordTweets[keyword] = tweets
+        extractList = []
+        for t in tweets:
+            tempdic = {}
+            tempdic["text"] = t["text"]
+            tempdic["from_user"] = t["from_user"]
+            tempdic["from_user_name"] = t["from_user_name"]
+            tempdic["profile_image_url"] = t["profile_image_url"]
+            extractList.append(tempdic)
+
+		keywordTweets[keyword] = extractList
 	
 	return json.dumps(keywordTweets)
 
