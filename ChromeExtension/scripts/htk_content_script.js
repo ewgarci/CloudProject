@@ -32,7 +32,7 @@ chrome.extension.onConnect.addListener(function(thePort) {
 /* Communication with the background scripts */
 
 function markWord(str) {
-	return "<a class='ourKeyWord' title='some text'>" + str + "<\/a>";
+	return "<a class='ourKeyWord'>" + str + "<\/a>";
 }
 
 function appendContent(keyWord, data) {
@@ -44,13 +44,65 @@ function appendContent(keyWord, data) {
 		$("body *").replaceText(re, markWord);
 		
 		/* Add tooltip that will show the twitter data on hover. */
-		$( ".ourKeyWord" ).tooltip({ 
-										content: function() {return parseHTML(data);} 
-									});
+		//document.body.innerHTML += parseHTML(data);
+		$(".ourKeyWord").each(function() {
+			$(this).qtip(
+			{
+				content: parseHTML(keyWord, data),
+				position: "bottmLeft",
+				hide: {
+					fixed: true
+				},
+				style: {
+					padding: '30px', // Give it some extra padding
+					background: 'transparent',
+					border: '0px',
+					width: '500px'
+				}
+			});
+		});
 	}, 0);	
 }
 
-function parseHTML(data) {
-	return data;
-	//return "<div style='color: Red; width:300px; height:100px;'>An awesome html content.</div>";
+function parseHTML(keyWord, data) {
+	
+
+	return "<div class='toolTipClass'>"
+			+	"<div class='tweetContainer'>"
+			+		"<h2>Tweets for <span style='color:red;'>" + keyWord + "</span></h2>"
+			+	"</div>" 
+			
+			+	parseTweetsHTML(data)
+			
+			+"</div>";
+}
+
+function parseTweetsHTML(data) {
+	var result = "";
+	var user;
+	var tweet;
+	for(var i = 0, len = data.length; i < len; i++) {
+		tweet = data[i];
+		user = tweet["from_user"];
+		result = result +
+		"<div class='tweetContainer'>"
+		+	"<div class='twitterContent'>"
+		+		"<div class='tweetHeader'>"
+		+			"<a href='http://www.twitter.com/" + user + "' target='_blank' class='userAnchor'>"
+		+				"<strong>" + tweet["from_user_name"] + "</strong>" 
+		+				"<span class='userSpan'>"
+		+					"<s>@</s>" 
+		+					"<b>" + user + "</b>"
+		+				"</span>"
+		+				"<img class='avatarClass' src='" + tweet["profile_image_url"] + "' alt='Avatar' />"
+		+			"</a>"
+		+		"</div>"
+		+		"<p>"
+		+			tweet["text"]
+		+		"</p>"
+		+	"</div>"
+		+"</div>"
+		;
+	}
+	return result;
 }
