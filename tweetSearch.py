@@ -10,7 +10,7 @@ import simplejson, json
 
 from xml.dom.minidom import parseString
 from string import rfind
-from twsearch import searchTweets
+#from twsearch import searchTweets
 
 def getTweets(query):
 	#print "<p>Search Value is:", query
@@ -42,14 +42,14 @@ def getWebPgTweets(url):
 		tweets = getTweets(keyword)
         extractList = []
         for t in tweets:
-            tempdic = {}
+            tempdic = dict()
             tempdic["text"] = t["text"]
             tempdic["from_user"] = t["from_user"]
             tempdic["from_user_name"] = t["from_user_name"]
             tempdic["profile_image_url"] = t["profile_image_url"]
             extractList.append(tempdic)
 
-		keywordTweets[keyword] = extractList
+        keywordTweets[keyword] = extractList
 	
 	return json.dumps(keywordTweets)
 

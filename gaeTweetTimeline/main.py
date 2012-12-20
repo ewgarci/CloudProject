@@ -68,7 +68,7 @@ class MainHandler(webapp.RequestHandler):
         elif mode == "query":
             keyword = self.request.get("kw")
             twdict = self.getNewsfeed(client)
-            tweets = ""
+            tweets = []
             for tweet in twdict:
                 if keyword in tweet["text"]:
                 # re.compile(r'\b({0})\b'.format(keyword), flags=re.IGNORECASE).search
