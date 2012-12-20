@@ -25,8 +25,8 @@
 		"css": ["css/styles.css",
 			"css/jquery-ui.css"],
         	"js": ["scripts/jquery-1.8.3.min.js",
-			"scripts/jquery.ba-replacetext.min.js", 
-			"scripts/jquery-ui.min.js",
+			"scripts/jquery.qtip-1.0.0-rc3.min.js",
+			"scripts/jquery.ba-replacetext.min.js",
 			"scripts/htk_content_script.js"]
     }]
 

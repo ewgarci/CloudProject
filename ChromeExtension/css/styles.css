@@ -16,6 +16,7 @@ a.ourKeyWord
 	font-family: Arial,sans-serif;
 	line-height: 18px;
 	background-color: #fff;
+	box-shadow: 0 0 4px 4px #a8a8a8;
 }
 .tweetContainer
 {

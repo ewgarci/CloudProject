@@ -32,7 +32,7 @@ chrome.extension.onConnect.addListener(function(thePort) {
 /* Communication with the background scripts */
 
 function markWord(str) {
-	return "<a class='ourKeyWord' title='some text'>" + str + "<\/a>";
+	return "<a class='ourKeyWord'>" + str + "<\/a>";
 }
 
 function appendContent(keyWord, data) {
@@ -45,10 +45,22 @@ function appendContent(keyWord, data) {
 		
 		/* Add tooltip that will show the twitter data on hover. */
 		//document.body.innerHTML += parseHTML(data);
-		
-		$( ".ourKeyWord" ).tooltip({ 
-										content: function() {return parseHTML(keyWord, data);} 
-									});
+		$(".ourKeyWord").each(function() {
+			$(this).qtip(
+			{
+				content: parseHTML(keyWord, data),
+				position: "bottmLeft",
+				hide: {
+					fixed: true
+				},
+				style: {
+					padding: '30px', // Give it some extra padding
+					background: 'transparent',
+					border: '0px',
+					width: '500px'
+				}
+			});
+		});
 	}, 0);	
 }
 
