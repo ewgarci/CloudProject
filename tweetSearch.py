@@ -19,13 +19,14 @@ def getTweets(query):
 	search = urllib.urlopen("http://search.twitter.com/search.json?q="+query)
 	# dict is a dictionary created by parsing the search string
 	#all tweets are in dict["result"], which is a list of dictionaries
-	dict = simplejson.loads(search.read())
-	
+	resultDict = simplejson.loads(search.read())
+
 	results = []
-	for result in dict["results"]:
-		results.append(result)
-		#print "<p>"
-		#print "*",result["text"].encode('utf-8'),"\n"
+	if resultDict and "results" in resultDict.keys():	
+		for result in resultDict["results"]:
+			results.append(result)
+			#print "<p>"
+			#print "*",result["text"].encode('utf-8'),"\n"
 
 	return results
 	
