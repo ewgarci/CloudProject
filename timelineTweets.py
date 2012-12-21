@@ -2,6 +2,7 @@ import urlparse
 import oauth2 as oauth
 import simplejson
 import cgitb
+import re
 import cgi
 
 consumer_key = 'fgPzVQVDu8pUn8tsz8ixog'
@@ -107,11 +108,27 @@ tweets = simplejson.loads(data)
 #tempdic["from_user_name"] = resultDict["from_user_name"]
 #tempdic["profile_image_url"] = resultDict["profile_image_url"]
 
-print simplejson.dumps(tweets)
+
+keyword = "Palin"
+
+#print simplejson.dumps(tweets)
 for tweet in tweets:
 	print "<p>"
 	print tweet['text']
 	print "</p>"
+	
+print "<p></p>"
+print "<p></p>"
+print "<p></p>"
+
+tweetsFiltered = []
+for tweet in tweets:
+	if keyword in tweet["text"]:
+		#re.compile(r'\b({0})\b'.format(keyword), flags=re.IGNORECASE).search
+		tweetsFiltered += '{"text": "%s", "from_user": "%s", "from_user_name": "%s", "profile_image_url": "%s"}' \
+		% (tweet["text"], tweet["user"]["name"], tweet["user"]["screen_name"], tweet["user"]["profile_image_url_https"])
+		print tweet["text"]
+print simplejson.dumps(tweetsFiltered)
 
 #print "Content-type: text/html\n\n"
 #print getWebPgTweets
