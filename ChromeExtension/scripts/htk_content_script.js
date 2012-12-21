@@ -49,15 +49,45 @@ function appendContent(keyWord, data) {
 			$(this).qtip(
 			{
 				content: htmlContent,
-				position: "bottmLeft",
+				position: "topRight",
 				hide: {
 					fixed: true
 				},
 				style: {
-					padding: '30px', // Give it some extra padding
+					padding: '20px', // Give it some extra padding
 					background: 'transparent',
 					border: '0px',
 					width: '500px'
+				},
+				api : {
+					beforeShow: function (event) {
+						var body = document.body;
+						var offset = $(this.options.position.target[0]).offset();
+						
+						var top = offset.top - body.scrollTop;
+						var left = offset.left - body.scrollLeft;
+						var height = body.offsetHeight;
+						var width = body.offsetWidth;
+						
+						var pos = "";
+						if (height - top > 320)
+							pos = "Top";
+						else if (top > 320)
+							pos = "Bottom";
+						else
+							pos = "Middle";
+							
+							
+						if (width - left > 520)
+							pos = "left" + pos;
+						else
+							pos = "right" + pos;
+						
+						var hasToReposition = true;
+						if (hasToReposition) {
+							this.options.position.corner = {target: 'leftMiddle', tooltip: pos };
+						}			 
+					}
 				}
 			});
 		});
