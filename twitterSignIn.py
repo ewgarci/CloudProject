@@ -4,6 +4,20 @@ import simplejson
 import cgitb
 import io
 import shelve
+import sqlite3
+
+#############
+# db-writing#
+#############
+def dbwrite(id, token, secret):
+    '''id is our fake user id, coudl just be a string like '1' 
+       since we just storing a single user'''
+    conn = sqlite3.connect('/home/ec2-user/CloudProject/user_access.db')
+    c = conn.cursor()
+    # clear any previous data, so we only track one user
+    c.execute('''DELETE FROM user_access''')
+    c.execute('INSERT INTO user_access VALUES (%s, %s, %s)' %(id, token, secret))
+    c.close()
 
 
 cgitb.enable()
@@ -61,3 +75,6 @@ print "</html>"
 
 # close it when you're done.
 #rq.close()
+
+#dbwrite("rq", request_token['oauth_token'], request_token['oauth_token_secret'])
+
