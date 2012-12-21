@@ -4,7 +4,6 @@
 var communicationPort = null;
 
 /* Request a connection */
-	alert(document.URL);
 chrome.extension.sendMessage({ openConnection: "true", wikiPage : document.URL});
 
 function sendMessageBackground() {
@@ -18,7 +17,6 @@ function sendMessageBackground() {
 }
 
 function receiveMessageBackground(msg) {
-	var keyWord = msg.keyWord;
 	appendContent(msg.keyWord, msg.content);
 }
 
@@ -32,7 +30,6 @@ chrome.extension.onConnect.addListener(function(thePort) {
 /* Communication with the background scripts */
 
 function markWord(str) {
-	alert(str.toLowerCase());
 	return "<a class='ourKeyWord our" + str.toLowerCase() + "'>" + str + "<\/a>";
 }
 
@@ -47,11 +44,11 @@ function appendContent(keyWord, data) {
 		/* Add tooltip that will show the twitter data on hover. */
 		//document.body.innerHTML += parseHTML(data);
 		var selector = ".our" + keyWord.toLowerCase();
+		var htmlContent = parseHTML(keyWord, data);
 		$(selector).each(function() {
-			alert($(this)[0].className);
 			$(this).qtip(
 			{
-				content: parseHTML(keyWord, data),
+				content: htmlContent,
 				position: "bottmLeft",
 				hide: {
 					fixed: true
