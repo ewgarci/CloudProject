@@ -125,9 +125,13 @@ tweetsFiltered = []
 for tweet in tweets:
 	if keyword in tweet["text"]:
 		#re.compile(r'\b({0})\b'.format(keyword), flags=re.IGNORECASE).search
-		tweetsFiltered += '{"text": "%s", "from_user": "%s", "from_user_name": "%s", "profile_image_url": "%s"}' \
-		% (tweet["text"], tweet["user"]["name"], tweet["user"]["screen_name"], tweet["user"]["profile_image_url_https"])
-		print tweet["text"]
+		tempdic = dict()
+		tempdic["text"] = tweet["text"]
+		tempdic["from_user"] = tweet["user"]["name"]
+		tempdic["from_user_name"] = tweet["user"]["screen_name"]
+		tempdic["profile_image_url"] = tweet["user"]["profile_image_url_https"]
+		tweetsFiltered.append(tempdic)
+
 print simplejson.dumps(tweetsFiltered)
 
 #print "Content-type: text/html\n\n"
