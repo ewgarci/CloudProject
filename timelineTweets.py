@@ -110,8 +110,8 @@ tweets = simplejson.loads(data)
 #tempdic["profile_image_url"] = resultDict["profile_image_url"]
 
 
-keyword = "Palin"
-
+keywords = ["Palin", "Christmas", "Thai"]
+'''
 #print simplejson.dumps(tweets)
 for tweet in tweets:
 	print "<p>"
@@ -121,19 +121,23 @@ for tweet in tweets:
 print "<p></p>"
 print "<p></p>"
 print "<p></p>"
+'''
 
-tweetsFiltered = []
-for tweet in tweets:
-	if keyword in tweet["text"]:
-		#re.compile(r'\b({0})\b'.format(keyword), flags=re.IGNORECASE).search
-		tempdic = dict()
-		tempdic["text"] = tweet["text"]
-		tempdic["from_user"] = tweet["user"]["name"]
-		tempdic["from_user_name"] = tweet["user"]["screen_name"]
-		tempdic["profile_image_url"] = tweet["user"]["profile_image_url_https"]
-		tweetsFiltered.append(tempdic)
+kt = dict()
+for keyword in keywords:
+	tweetsFiltered = []
+	for tweet in tweets:
+		if keyword in tweet["text"]:
+			#re.compile(r'\b({0})\b'.format(keyword), flags=re.IGNORECASE).search
+			tempdic = dict()
+			tempdic["text"] = tweet["text"]
+			tempdic["from_user"] = tweet["user"]["name"]
+			tempdic["from_user_name"] = tweet["user"]["screen_name"]
+			tempdic["profile_image_url"] = tweet["user"]["profile_image_url_https"]
+			tweetsFiltered.append(tempdic)
+	kt[keyword] = tweetsFiltered
 
-print simplejson.dumps(tweetsFiltered)
+print simplejson.dumps(kt)
 
 #print "Content-type: text/html\n\n"
 #print getWebPgTweets
@@ -162,7 +166,7 @@ def dbwrite(id, token, secret):
 ##############
 # db-reading #
 ##############
-def dbread()
+def dbread():
     conn = sqlite3.connect('user_access.db')
     c = conn.cursor()
     c.execute('SELECT * FROM user_access')
