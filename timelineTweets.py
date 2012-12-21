@@ -4,6 +4,7 @@ import simplejson
 import cgitb
 import re
 import cgi
+import sqlite3
 
 consumer_key = 'fgPzVQVDu8pUn8tsz8ixog'
 consumer_secret = 'MMEEaWtsEIY2CzYs8CXcgX981zext7y4kDv1Hvjfw'
@@ -136,3 +137,36 @@ print simplejson.dumps(tweetsFiltered)
 
 #print "Content-type: text/html\n\n"
 #print getWebPgTweets
+
+
+
+##################################################
+# The table is in user_access.db. it has three fields:
+# id | token | secret 
+############################################
+
+#################################################
+# the insertion code, put wherever it should be #
+#################################################
+conn = sqlite3.connect('user_access.db')
+c = conn.cursor()
+# clear any previous data, so we only track one user
+c.execute('''DELETE FROM user_access''')
+id='user_id'
+token='access_token'#replace with actual token
+secret='access_secret'#repace with actural secret
+c.execute('INSERT INTO user_access VALUES (%s, %s, %s)' %(id, token, secret))
+####################
+# end of insertion #
+####################
+
+
+
+###########
+# reading #
+###########
+conn = sqlite3.connect('user_access.db')
+c = conn.cursor()
+c.execute('SELECT * FROM user_access')
+user = c.fetchone()
+
