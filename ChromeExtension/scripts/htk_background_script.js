@@ -10,6 +10,10 @@ chrome.extension.onMessage.addListener(
 		//sendData(tab);
 	}
   });
+  
+chrome.browserAction.onClicked.addListener(function() {
+    chrome.tabs.create({'url': "http://ec2-50-17-87-12.compute-1.amazonaws.com:8080/cgi-bin/twitterSignIn.py"});
+});
 
 function sendData(tab, data) {
     var tabID = tab.id;
