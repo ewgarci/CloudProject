@@ -26,7 +26,7 @@ function receiveMessage(msg) {
 function sendRequestToCloud(wikiPage) {
 	var requestUrl = "http://ec2-50-17-87-12.compute-1.amazonaws.com:8080/cgi-bin/tweetSearch.py?" +
 					 "urllink=" + wikiPage +
-					 "&keywords=1";
+					 "&keywords=5";
 	$.get(
 		requestUrl, 		/* cloud url */
 		{},					/* send nothing to cloud */
