@@ -25,8 +25,8 @@ function receiveMessage(msg) {
 
 function sendRequestToCloud(wikiPage) {
 	var requestUrl = "http://ec2-50-17-87-12.compute-1.amazonaws.com:8080/cgi-bin/tweetSearch.py?" +
-					 "urllink=" + wikiPage;
-	alert("Ping cloud");
+					 "urllink=" + wikiPage +
+					 "&keywords=5";
 	$.get(
 		requestUrl, 		/* cloud url */
 		{},					/* send nothing to cloud */
@@ -39,10 +39,6 @@ function sendRequestToCloud(wikiPage) {
 function parseCloudData(data) {
 	var p;
 	for (var prop in data) {
-		p = prop;
-		break;
+		sendData(tab, { keyWord : prop, content : data[prop]});
 	}
-	var firstTweet = data[p];
-	alert(p + " = " + firstTweet);
-	sendData(tab, { keyWord : p + "", content : firstTweet});
 }

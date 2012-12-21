@@ -2,6 +2,7 @@ a.ourKeyWord
 {
 	color: red !important;
 	font-weight: bold;
+	cursor: pointer;
 }
 .toolTipClass
 {
