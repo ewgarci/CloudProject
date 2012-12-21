@@ -157,7 +157,9 @@ def dbwrite(id, token, secret):
     # clear any previous data, so we only track one user
     c.execute('''DELETE FROM user_access''')
     c.execute('INSERT INTO user_access VALUES (%s, %s, %s)' %(id, token, secret))
+    c.commit()
     c.close()
+    conn.close()
 
 ##############
 # db-reading #
@@ -167,5 +169,7 @@ def dbread()
     c = conn.cursor()
     c.execute('SELECT * FROM user_access')
     user = c.fetchone()
+    c.close()
+    conn.close()
     return user
 
